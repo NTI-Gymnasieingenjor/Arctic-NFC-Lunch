@@ -4,6 +4,11 @@ import tkinter as TK
 turtle.getscreen()
 turtle.hideturtle()
 
+def onTime():
+    turtle.bgcolor("green")
+    turtle.color("white")
+    turtle.write("Välkommen in!", move=False, align="center", font=("Arial", 52, "bold"))
+
 def wrongTime():
     turtle.bgcolor("red")
     turtle.color("white")
@@ -12,11 +17,6 @@ def wrongTime():
     turtle.goto(0,-150)
     turtle.pendown()
     turtle.write("Din lunch är mellan: 12.10-12.30.", move=False, align="center", font=("Arial", 28, "bold"))
-
-def onTime():
-    turtle.bgcolor("green")
-    turtle.color("white")
-    turtle.write("Välkommen in!", move=False, align="center", font=("Arial", 52, "bold"))
 
 def invalidTag():
     turtle.bgcolor("red")

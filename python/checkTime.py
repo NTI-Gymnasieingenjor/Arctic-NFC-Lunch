@@ -20,12 +20,14 @@ class CheckTime:
         lunchDuration = 20
         if self.weekday > 4:
             return [False, ""]
-        startTime = self.schedule[self.modal.cls][self.weekday]
+        startTime = self.schedule[self.modal.cls][self.weekday][0]
+        endTime = self.schedule[self.modal.cls][self.weekday][1]
         lunchTime: List[str] = startTime.split(":")
 
         if self.time.hour >= int(lunchTime[0]) and self.time.minute >= int(lunchTime[1]):
             # The lunch end time
-            if self.time.minute > int(lunchTime[1]) + lunchDuration:
+            if self.time.minute > int(endTime[1]):
                 return [False, startTime]
             return [True, startTime]
         return [False, startTime]
+
