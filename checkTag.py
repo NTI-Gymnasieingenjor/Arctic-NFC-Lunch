@@ -27,23 +27,17 @@ class CheckTag:
             return Modal("", "")
         return Modal(tag, self.file[tag])
 
-    def start(self, tag=None):
-        loop = True
-        while loop == True:
+    def start(self):
+        while True:
             # Clears the terminal output
-            if tag == None:
-                os.system("clear")
+            os.system("clear")
             # Clears the previous input buffer
             sys.stdout.flush()
             tcflush(sys.stdin, TCIOFLUSH)
 
             print("Ready")
-            value = tag
-            if tag == None:
-                value = input("")
-            else:
-                print(tag)
-            if (len(value) == 0 or len(value) > 9) and tag == None:
+            value = input("")
+            if (len(value) == 0 or len(value) > 9):
                 continue
 
             print("Please Wait...")
@@ -51,11 +45,7 @@ class CheckTag:
 
             if modal.tag == "" or modal.cls == "":
                 time.sleep(3)
-                if tag == None:
-                    continue
-
-            if tag != None:
-                loop = False
+                continue
 
             print(modal.tag, modal.cls)
             print("")
