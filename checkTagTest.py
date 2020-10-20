@@ -1,13 +1,21 @@
 import json
-import checkTag
+import unittest
+from unittest.mock import patch
 
-tagFile = open("tags.json")
-# Creates a dictionary that contains all the tags and the connected class,
-# to be able to search for specific tags
-fileData: dict = json.load(tagFile)
+from checkTag import CheckTag
 
+import tracemalloc
+
+tracemalloc.start()
+#          Incorrect,  Incorrect,   Correct,     Incorrect len, Correct,    Correct
 tagList = ["67523475", "876348574", "952224470", "7978497850", "537059654", "536961030"]
 
-for tag in tagList:
-    tagCheck = checkTag.CheckTag()
-    tagCheck.start(tag=tag)
+
+class Test(unittest.TestCase):
+    @patch('builtins.input', side_effect=tagList)
+    def test_checkTag(self, mock):
+        CheckTag().start(runs=len(tagList))
+
+
+if __name__ == '__main__':
+    unittest.main()
