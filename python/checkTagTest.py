@@ -1,10 +1,8 @@
-import json
 import unittest
 from unittest.mock import patch
+import tracemalloc
 
 from checkTag import CheckTag
-
-import tracemalloc
 
 tracemalloc.start()
 #          Incorrect,  Incorrect,   Correct,     Incorrect len, Correct,    Correct
