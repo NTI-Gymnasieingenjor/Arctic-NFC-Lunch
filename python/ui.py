@@ -49,27 +49,27 @@ class UI():
         turtle.penup()
         turtle.goto(0, -150)
         turtle.pendown()
-        turtle.write("Din lunch är mellan: " + times[1] + "-" + times[2] +
-                     ".", move=False, align="center", font=("Arial", 28, "bold"))
+        turtle.write("Din lunchtid: " + times[1] + "-" + times[2],
+                     move=False, align="center", font=("Arial", 32, "bold"))
         turtle.penup()
         turtle.goto(0, 0)
         turtle.pendown()
-        time.sleep(2)
+        time.sleep(3)
         self.idleScreen()
 
     def invalidTag(self):
         self.clear()
         turtle.bgcolor("red")
         turtle.color("white")
-        turtle.write("Din tagg är ogiltig, använd en giltig tagg!",
+        turtle.write("Din tagg är ogiltig!",
                      move=False, align="center", font=("Arial", 52, "bold"))
         turtle.penup()
         turtle.goto(0, -150)
         turtle.pendown()
-        turtle.write("Se till att skanna taggen separat från andra läsbara kort.",
-                     move=False, align="center", font=("Arial", 28, "bold"))
+        turtle.write("Skanna taggen separat från andra läsbara kort.",
+                     move=False, align="center", font=("Arial", 32, "bold"))
         turtle.penup()
         turtle.goto(0, 0)
         turtle.pendown()
-        time.sleep(3.5)
+        time.sleep(5)
         self.idleScreen()

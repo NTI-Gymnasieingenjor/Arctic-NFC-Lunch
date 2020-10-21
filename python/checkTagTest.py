@@ -16,7 +16,7 @@ keyboard = Controller()
 
 def sendKeys():
     for tag in tagList:
-        sleep(4.5)
+        sleep(10)
         keyboard.type(tag)
         keyboard.press(Key.enter)
         keyboard.release(Key.enter)

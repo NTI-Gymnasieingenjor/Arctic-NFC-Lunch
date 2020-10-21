@@ -81,7 +81,6 @@ class CheckTag:
         modal = self.getTag(value)
 
         if modal.tag == "" or modal.cls == "":
-            print("sdhf8sd8yh8fy9sdf98sd8hfb98d")
             self.ui.invalidTag()
             self.keys_activate()
             return
