@@ -26,8 +26,6 @@ class CheckTime:
         lunchTimeEnd: List[str] = endTime.split(":")
 
         if self.time.hour >= int(lunchTime[0]) and self.time.minute >= int(lunchTime[1]):
-            # The lunch end time
-            if self.time.minute > int(lunchTimeEnd[1]):
-                return [False, startTime, endTime]
-            return [True, startTime, endTime]
+            if self.time.hour <= int(lunchTimeEnd[0]) and self.time.minute <= int(lunchTimeEnd[1]):
+                return [True, startTime, endTime]
         return [False, startTime, endTime]
