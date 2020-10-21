@@ -19,7 +19,7 @@ class CheckTime:
 
     def check(self):
         if self.weekday > 4:
-            return [False, ""]
+            return [False, "", ""]
         startTime = self.schedule[self.modal.cls][self.weekday][0]
         endTime = self.schedule[self.modal.cls][self.weekday][1]
         lunchTime: List[str] = startTime.split(":")
@@ -28,6 +28,6 @@ class CheckTime:
         if self.time.hour >= int(lunchTime[0]) and self.time.minute >= int(lunchTime[1]):
             # The lunch end time
             if self.time.minute > int(lunchTimeEnd[1]):
-                return [False, startTime]
-            return [True, startTime]
-        return [False, startTime]
+                return [False, startTime, endTime]
+            return [True, startTime, endTime]
+        return [False, startTime, endTime]

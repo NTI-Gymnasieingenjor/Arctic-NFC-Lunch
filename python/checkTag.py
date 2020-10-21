@@ -1,76 +1,97 @@
-import sys
 import json
-import os
 from termios import tcflush, TCIOFLUSH
-from time import sleep
 
 from checkTime import CheckTime
 from modal import Modal
-
-
-sleepTime = 1
-errorSleepTime = 2
+from ui import UI
+import turtle
 
 
 class CheckTag:
     def __init__(self):
+        self.ui = UI()
         file = open("./data/tags.json")
         # Creates a dictionary that contains all the tags and the connected class,
         # to be able to search for specific tags
         self.file: dict = json.load(file)
         file.close()
 
+        self.ui.idleScreen()
+
+        self.keyList = []
+        self.finished = True
+
+        self.keys_activate()
+        turtle.mainloop()
+
+    def keys_activate(self):
+        turtle.onkey(lambda: self.append("0"), "0")
+        turtle.onkey(lambda: self.append("1"), "1")
+        turtle.onkey(lambda: self.append("2"), "2")
+        turtle.onkey(lambda: self.append("3"), "3")
+        turtle.onkey(lambda: self.append("4"), "4")
+        turtle.onkey(lambda: self.append("5"), "5")
+        turtle.onkey(lambda: self.append("6"), "6")
+        turtle.onkey(lambda: self.append("7"), "7")
+        turtle.onkey(lambda: self.append("8"), "8")
+        turtle.onkey(lambda: self.append("9"), "9")
+        turtle.onkey(lambda: self.start(), "Return")
+        turtle.listen()
+
+    def keys_deactivate(self):
+        turtle.onkey(None, "0")
+        turtle.onkey(None, "1")
+        turtle.onkey(None, "2")
+        turtle.onkey(None, "3")
+        turtle.onkey(None, "4")
+        turtle.onkey(None, "5")
+        turtle.onkey(None, "6")
+        turtle.onkey(None, "7")
+        turtle.onkey(None, "8")
+        turtle.onkey(None, "9")
+        turtle.onkey(None, "Return")
+        turtle.listen()
+
     def getTag(self, tag: str):
         if tag not in self.file.keys():
-            # Clears the terminal output
-            os.system("clear")
-            print("Ogiltig tagg!")
-            print("Se till att skanna taggen separat från plånbok, mobilskal osv.")
             return Modal("", "")
         return Modal(tag=tag, cls=self.file[tag])
 
     def timeCheck(self, modal: Modal):
-        os.system("clear")
-        if CheckTime(modal).check()[0] == False:
-            print("DU HAR INTE TID NU!")
-            print("DIN TID ÄR", CheckTime(modal).check()[1])
-            sleep(errorSleepTime)
-        if CheckTime(modal).check()[0] == True:
-            print("Välkommen in!")
-            sleep(sleepTime)
+        # os.system("clear")
+        result = CheckTime(modal).check()
+        if result[0] == False:
+            self.ui.wrongTime(result)
+        if result[0] == True:
+            self.ui.onTime()
 
-    def start(self, runs=0):
-        loop = False
-        index: int = 0
-        while loop == False:
-            if runs <= 0:
-                os.system("clear")
-                # Clears the previous input buffer
-                sys.stdout.flush()
-                tcflush(sys.stdin, TCIOFLUSH)
+    def start(self):
+        self.keys_deactivate()
 
-            if runs > 0 and index == runs - 1:
-                # Ends the loop if the index has reached its limit
-                loop = True
-            index += 1
+        value = "".join(self.keyList)
+        self.keyList.clear()
 
-            print("Ready")
-            value = input("")
-            # The length of the NFC tags MFR number is 9
-            if len(value) == 0 or len(value) > 9 or len(value) < 9:
-                print("Var snäll skanna en korrekt tagg.")
-                print("")
-                sleep(errorSleepTime)
-                continue
+        # The length of the NFC tags MFR number is 9
+        if len(value) == 0 or len(value) > 9 or len(value) < 9:
+            self.ui.invalidTag()
+            self.keys_activate()
+            return
 
-            print("Please Wait...")
-            modal = self.getTag(value)
+        self.ui.idleScreen()
+        modal = self.getTag(value)
 
-            if modal.tag == "" or modal.cls == "":
-                # When the swiped tag isn't valid, continue the loop from the beginning
-                sleep(errorSleepTime)
-                continue
+        if modal.tag == "" or modal.cls == "":
+            print("sdhf8sd8yh8fy9sdf98sd8hfb98d")
+            self.ui.invalidTag()
+            self.keys_activate()
+            return
 
-            print(modal.tag, modal.cls)
-            self.timeCheck(modal)
-            sleep(sleepTime)
+        print(modal.tag, modal.cls)
+        self.timeCheck(modal)
+        self.keys_activate()
+
+    def append(self, key):
+        if len(self.keyList) <= 9:
+            self.keyList.append(key)
+        if len(self.keyList) > 9:
+            self.keyList.clear()
