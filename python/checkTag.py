@@ -35,7 +35,7 @@ class CheckTag:
             print("DU HAR INTE TID NU!")
             print("DIN TID ÄR", CheckTime(modal).check()[1])
             sleep(errorSleepTime)
-        else:
+        if CheckTime(modal).check()[0] == True:
             print("Välkommen in!")
             sleep(sleepTime)
 
